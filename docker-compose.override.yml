@@ -1,0 +1,57 @@
+version: '3.4'
+
+services:
+  studentdb:
+   container_name: studentdb
+   restart: always
+   ports:
+   - 27014:27017
+   volumes:
+   - mongo_data:/data/studentdb
+
+  departmentdb:
+    container_name: departmentdb
+    restart: always
+    ports:
+      - "27013:27017"
+    volumes:
+      - mongo_data:/data/departmentdb
+
+  coursedb:
+    container_name: coursedb
+    restart: always
+    ports:
+      - "27012:27017"
+    volumes:
+      - mongo_data:/data/coursedb
+
+
+  studentcourse.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      -  "AppSettings:CommandServerName=mongodb://coursedb:27017"
+    depends_on:
+      - coursedb
+    ports:
+      - "5001:80"
+      
+  studentdetails.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "AppSettings:CommandServerName=mongodb://studentdb:27017"
+    depends_on:
+      - studentdb
+    ports:
+      - "5002:80"
+      
+   
+  studentdepartment.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "AppSettings:CommandServerName=mongodb://departmentdb:27017"
+
+    depends_on:
+      - departmentdb
+    ports:
+      - "5003:80"
+

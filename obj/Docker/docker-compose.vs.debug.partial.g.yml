@@ -1,0 +1,85 @@
+version: '3.4'
+
+services:
+  studentcourse.api:
+    image: studentcourseapi:dev
+    container_name: StudentCourse.API
+    build:
+      target: base
+      labels:
+        com.microsoft.created-by: "visual-studio"
+        com.microsoft.visual-studio.project-name: "StudentCourse.API"
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      #- NUGET_FALLBACK_PACKAGES=$container_paths_to_fallback_packages_studentcourse.api$
+    volumes:
+      - C:\Users\Dell\source\repos\StudentManagementGraphQL\StudentManagement\Services\Courses\StudentCourse.API:/app
+      - C:\Users\Dell\source\repos\StudentManagementGraphQL\StudentManagement\.:/src
+      - C:\Users\Dell\vsdbg\vs2017u5:/remote_debugger:rw
+#$nuget_volume_mapping_studentcourse.api$
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    entrypoint: tail -f /dev/null
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: " $debuggee_arguments_probing_paths_studentcourse.api$ \"/app/bin/Debug/net5.0/StudentCourse.API.dll\""
+      com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+    tty: true
+  studentdepartment.api:
+    image: studentdepartmentapi:dev
+    container_name: StudentDepartment.API
+    build:
+      target: base
+      labels:
+        com.microsoft.created-by: "visual-studio"
+        com.microsoft.visual-studio.project-name: "StudentDepartment.API"
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      #- NUGET_FALLBACK_PACKAGES=$container_paths_to_fallback_packages_studentdepartment.api$
+    volumes:
+      - C:\Users\Dell\source\repos\StudentManagementGraphQL\StudentManagement\Services\Department\Department.API:/app
+      - C:\Users\Dell\source\repos\StudentManagementGraphQL\StudentManagement\.:/src
+      - C:\Users\Dell\vsdbg\vs2017u5:/remote_debugger:rw
+#$nuget_volume_mapping_studentdepartment.api$
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    entrypoint: tail -f /dev/null
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: " $debuggee_arguments_probing_paths_studentdepartment.api$ \"/app/bin/Debug/net5.0/StudentDepartment.API.dll\""
+      com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+    tty: true
+
+  studentdetails.api:
+    image: studentdetailsapi:dev
+    container_name: StudentDetails.API
+    build:
+      target: base
+      labels:
+        com.microsoft.created-by: "visual-studio"
+        com.microsoft.visual-studio.project-name: "StudentDetails.API"
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      #- NUGET_FALLBACK_PACKAGES=$container_paths_to_fallback_packages_studentdetails.api$
+    volumes:
+      - C:\Users\Dell\source\repos\StudentManagementGraphQL\StudentManagement\Services\Student\StudentDetails.API:/app
+      - C:\Users\Dell\source\repos\StudentManagementGraphQL\StudentManagement\.:/src
+      - C:\Users\Dell\vsdbg\vs2017u5:/remote_debugger:rw
+#$nuget_volume_mapping_studentdetails.api$
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    entrypoint: tail -f /dev/null
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: " $debuggee_arguments_probing_paths_studentdetails.api$ \"/app/bin/Debug/net5.0/StudentDetails.API.dll\""
+      com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+    tty: true

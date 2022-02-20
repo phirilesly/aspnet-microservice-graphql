@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  studentdb:
+    image: mongo
+
+  departmentdb:
+    image: mongo
+
+  coursedb:
+    image: mongo
+
+  studentcourse.api:
+    image: ${DOCKER_REGISTRY-}studentcourseapi
+    build:
+      context: .
+      dockerfile: Services/Courses/StudentCourse.API/Dockerfile
+
+  studentdetails.api:
+    image: ${DOCKER_REGISTRY-}studentdetailsapi
+    build:
+      context: .
+      dockerfile: Services/Student/StudentDetails.API/Dockerfile
+
+
+  studentdepartment.api:
+    image: ${DOCKER_REGISTRY-}studentdepartmentapi
+    build:
+      context: .
+      dockerfile: Services/Department/Department.API/Dockerfile
+
+volumes:
+  mongo_data:
+ 
+    
+
+

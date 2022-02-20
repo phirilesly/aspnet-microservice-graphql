@@ -1,0 +1,93 @@
+services:
+  coursedb:
+    container_name: coursedb
+    image: mongo
+    ports:
+    - mode: ingress
+      target: 27017
+      published: 27012
+      protocol: tcp
+    restart: always
+    volumes:
+    - type: volume
+      source: mongo_data
+      target: /data/coursedb
+      volume: {}
+  departmentdb:
+    container_name: departmentdb
+    image: mongo
+    ports:
+    - mode: ingress
+      target: 27017
+      published: 27013
+      protocol: tcp
+    restart: always
+    volumes:
+    - type: volume
+      source: mongo_data
+      target: /data/departmentdb
+      volume: {}
+  studentcourse.api:
+    build:
+      context: .
+      dockerfile: Services/Courses/StudentCourse.API/Dockerfile
+    depends_on:
+      coursedb:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      AppSettings:CommandServerName: mongodb://coursedb:27017
+    image: studentcourseapi
+    ports:
+    - mode: ingress
+      target: 80
+      published: 5001
+      protocol: tcp
+  studentdb:
+    container_name: studentdb
+    image: mongo
+    ports:
+    - mode: ingress
+      target: 27017
+      published: 27014
+      protocol: tcp
+    restart: always
+    volumes:
+    - type: volume
+      source: mongo_data
+      target: /data/studentdb
+      volume: {}
+  studentdepartment.api:
+    build:
+      context: .
+      dockerfile: Services/Department/Department.API/Dockerfile
+    depends_on:
+      departmentdb:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      AppSettings:CommandServerName: mongodb://departmentdb:27017
+    image: studentdepartmentapi
+    ports:
+    - mode: ingress
+      target: 80
+      published: 5003
+      protocol: tcp
+  studentdetails.api:
+    build:
+      context: .
+      dockerfile: Services/Student/StudentDetails.API/Dockerfile
+    depends_on:
+      studentdb:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      AppSettings:CommandServerName: mongodb://studentdb:27017
+    image: studentdetailsapi
+    ports:
+    - mode: ingress
+      target: 80
+      published: 5002
+      protocol: tcp
+volumes:
+  mongo_data: {}
